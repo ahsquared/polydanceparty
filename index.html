@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html> 
+    <head>
+        <title>Poly Dance Party</title>
+        <meta name="viewport" content="width=device-width" >
+
+        <link href='http://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+
+        <div id="wrapper">
+            <p>Connect your OSC app/device at port 3333 to send messages to this
+                page.<br /><br />Configure your OSC app/device to listen at port 3334
+                to messages I send from this page.</p>
+
+            <hr />
+
+            Received from an OSC app/device at : <div id="status"></div>
+
+            <hr />
+
+            <div id="content">
+                <img id="shape" src="" />
+                <div id="info">
+                    <h1>POLY DANCE PARTY</h1>
+                    <h2>An Interactive Installation</h2>
+                    <p>First Friday / June 6th<br>
+                        119 S Gay St.<br>
+                        [BRING YOUR PHONE]</p>
+                </div>
+                <div id="accel"></div>
+            </div>
+        </div>
+        <script>var ipAddress = "172.16.200.81";</script>
+        <script src="http://172.16.200.81:8081/socket.io/socket.io.js"></script>
+        <script src="gyro.js"></script>
+        <script src="main.js"></script>
+
+
+    </body> </html>
