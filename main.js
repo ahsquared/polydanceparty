@@ -1,5 +1,5 @@
 
-socket = io.connect("http://" + ipAddress, {port: 8081, rememberTransport: false});
+socket = io.connect("http://" + location.host, {port: 8081, rememberTransport: false});
 console.log('oi');
 var init = false;
 socket.on('connect', function() {
@@ -9,11 +9,11 @@ socket.on('connect', function() {
         {
             server: {
                 port: 3343,
-                host: ipAddress
+                host: location.hostname
             },
             client: {
                 port: 3344,
-                host: ipAddress
+                host: location.hostname
             }
         }
     );
@@ -36,11 +36,12 @@ var polydanceparty = {
             shape = document.getElementById('shape'),
             info = document.getElementById('info'),
             content = document.getElementById('content'),
-            accel = document.getElementById('accel'),
+            VideoPlayer = document.getElementById('VideoPlayer'),
             init = false,
             numShapes = 6,
             shapeNumber = this.randomIntFromInterval(1, numShapes);
 
+        VideoPlayer.volume = 0;
         shape.src = "/img/Shape-" + shapeNumber + ".png";
         info.className = "shape" + shapeNumber;
 
@@ -51,14 +52,8 @@ var polydanceparty = {
                 polydanceparty.initOrientation.alpha = o.alpha;
                 polydanceparty.initOrientation.beta = Math.abs(o.beta);
                 polydanceparty.initOrientation.gamma = Math.abs(o.gamma);
-                console.log(polydanceparty.initOrientation);
                 init = true;
-            } else {
-                accel.innerHTML = "alpha: " + o.alpha + "<br>" +
-                    "beta: " + o.beta + "<br>" +
-                    "gamma: " + o.gamma + "<br>";
             }
-
 
             if (!init)
                 return;
@@ -80,18 +75,6 @@ var polydanceparty = {
 
             var smoothRotation = polydanceparty.getSmoothRotation(adjustedRotation.alpha, adjustedRotation.beta, adjustedRotation.gamma);
 
-            accel.innerHTML = "x: " + o.x + "<br>" +
-                "y: " + o.y + "<br>" +
-                "z: " + o.z + "<br>" +
-                "netX: " + netAcceleration.x + "<br>" +
-                "netY: " + netAcceleration.y + "<br>" +
-                "netZ: " + netAcceleration.z + "<br>" +
-                "alpha: " + o.alpha + "<br>" +
-                "beta: " + o.beta + "<br>" +
-                "gamma: " + o.gamma + "<br>" + 
-                "smoothAlpha: " + smoothRotation.alpha + "<br>" +
-                "smoothBeta: " + smoothRotation.beta + "<br>" +
-                "smoothGamma: " + smoothRotation.gamma + "<br>";
 
             //polydanceparty.rotateShape(smoothRotation, accel);
             polydanceparty.rotateShape(smoothRotation, shape);
@@ -120,21 +103,34 @@ var polydanceparty = {
     },
     accFilteringFactor: 0.1,
     rotFilteringFactor: 0.1,
+    setStyle: (function(){
+        var cachedStyles = {};
+        return function(styleName, styleValue, elem){
+            if(styleName in elem.style){
+                elem.style[styleName] = styleValue;
+                return;
+            }
+            if(styleName in cachedStyles){
+                elem.style[cachedStyles[styleName]] = styleValue;
+                return;
+            }
+            var vendors = ['Moz', 'webkit', 'ms'];
+            var styleNameUpper = styleName.replace(styleName[0], styleName[0].toUpperCase());
+            vendors.forEach(function(vendor){
+                var _styleName = vendor+styleNameUpper;
+                if(_styleName in elem.style){
+                    cachedStyles[styleName] = _styleName;
+                    elem.style[_styleName] = styleValue;
+                }
+            });
+        }
+    }()),
     rotateShape: function(rotation, div) {
-        //accel.innerHTML = rotation.alpha + ", " + rotation.beta + ", " + rotation.gamma;
-
-        div.style.webkitTransform = "perspective(500) " +
+        var styleValue = "perspective(500) " +
             "rotateZ(" + rotation.alpha + "deg) " +
             "rotateX(" + rotation.beta + "deg) " +
             "rotateY(" + rotation.gamma + "deg)";
-        div.style.MozTransform = "perspective(500px) " +
-            "rotateZ(" + rotation.alpha + "deg) " +
-            "rotateX(" + rotation.beta + "deg) " +
-            "rotateY(" + rotation.gamma + "deg)";
-        div.style.transform = "perspective(500) " +
-            "rotateZ(" + rotation.alpha + "deg) " +
-            "rotateX(" + rotation.beta + "deg) " +
-            "rotateY(" + rotation.gamma + "deg)";
+        this.setStyle('transform', styleValue, div);
     },
     currentRotation: {
         alpha: 0,
