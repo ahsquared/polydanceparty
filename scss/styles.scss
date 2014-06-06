@@ -69,3 +69,9 @@ html, body, #wrapper {
 #accel {
     display: none;
 }
+#VideoPlayer {
+    position:fixed;
+    top:0;left:0;
+    opacity: 0.01;
+    z-index: 1;
+}

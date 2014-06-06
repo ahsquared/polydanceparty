@@ -19,11 +19,12 @@
 
             Received from an OSC app/device at : <div id="status"></div>
 
-            <hr /> -->
-
+            <hr />
+            <button style="position: relative; z-index: 100;" onclick="socket.send('message');console.log('button');">Send OSC message</button>
+ -->
             <!-- <div id="accel"></div> -->
             <div id="content">
-                    <video id="VideoPlayer" poster="023.png" autoplay="autoplay" controls="controls" style="position:fixed; top:0;left:0; opacity: 0.01">
+                    <video id="VideoPlayer" poster="023.png" autoplay="autoplay" controls="controls">
                         <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
                         <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
                     </video>
@@ -34,6 +35,7 @@
                     <p>First Friday / June 6th<br>
                         119 S Gay St.<br>
                         [BRING YOUR PHONE]</p>
+<!--                    <p id="log">log</p>-->
                 </div>
             </div>
         </div>
