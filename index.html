@@ -24,10 +24,14 @@
  -->
             <!-- <div id="accel"></div> -->
             <div id="content">
-                    <video id="VideoPlayer" poster="023.png" autoplay="autoplay" controls="controls">
-                        <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-                        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-                    </video>
+                <video id="VideoPlayer" controls="controls">
+                    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+                    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+                </video>
+                <audio id="AudioPlayer" preload="none" loop="loop" controlls>
+                    <source src="/1sec.m4a" type="audio/mpeg" />
+                    <source src="/1sec.ogg" type="audio/ogg" />
+                </audio>
                 <img id="shape" src="" />
                 <div id="info">
                     <h1>POLY DANCE PARTY</h1>
@@ -37,6 +41,12 @@
                         [BRING YOUR PHONE]</p>
 <!--                    <p id="log">log</p>-->
                 </div>
+            </div>
+        </div>
+        <div id="BeginTheParty">
+            <div class="inner">
+                <a href="#" class="btn" id="BeginThePartyBtn">Begin<br>
+                The Dance</a>
             </div>
         </div>
         <script>

@@ -1,3 +1,6 @@
+// constant globals
+var IS_IOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+
 
 socket = io.connect("http://" + location.hostname, {port: 8081, rememberTransport: false});
 socket.on('connect', function() {
@@ -35,12 +38,26 @@ var polydanceparty = {
                 info = document.getElementById('info'),
                 content = document.getElementById('content'),
                 VideoPlayer = document.getElementById('VideoPlayer'),
+                AudioPlayer = document.getElementById('AudioPlayer'),
+                BeginTheParty = document.getElementById('BeginTheParty'),
+                BeginThePartyBtn = document.getElementById('BeginThePartyBtn'),
                 init = false,
                 numShapes = 6;
         //shapeNumber = this.randomIntFromInterval(1, numShapes);
 
-        VideoPlayer.volume = 0;
-
+        function touchHandler(e){
+            e.preventDefault();
+            if(IS_IOS){
+                AudioPlayer.play();
+                AudioPlayer.volume = 0;
+            }else{
+                VideoPlayer.play();
+                VideoPlayer.volume = 0;
+            }
+            BeginTheParty.className = 'hide';
+            BeginThePartyBtn.removeEventListener('touchstart', touchHandler);
+        }
+        BeginThePartyBtn.addEventListener('touchstart', touchHandler);
 
         gyro.startTracking(function(o) {
             // o.x, o.y, o.z for accelerometer
